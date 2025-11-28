@@ -117,6 +117,7 @@ You can activate these alternative mappings with a parameter when the library is
 
 If you want to use a code page mapping that is specific to your printer, you can also specify an object with the correct mappings:
 
+```js
     let encoder = new EscPosEncoder({
         codepageMapping: {
             'cp437': 0x00,
@@ -128,6 +129,7 @@ If you want to use a code page mapping that is specific to your printer, you can
             'cp858': 0x13,
         }
     });
+```
 
 Each property name must be one of the code pages supported by this library and the value is the number which is used for that code page on your printer.
 
@@ -135,68 +137,84 @@ Each property name must be one of the code pages supported by this library and t
 
 It is also possible to enable auto encoding of code pages. The library will then automatically switch between code pages depending on the text that you want to print.
 
+```js
     let result = encoder
         .codepage('auto')
         .text('Iñtërnâtiônàlizætiøn')
         .text('διεθνοποίηση')
         .text('интернационализация')
         .encode()
+```
 
 Or even mix code pages within the same text:
 
+```js
     let result = encoder
         .codepage('auto')
         .text('You can mix ελληνική γλώσσα and русский язык')
         .encode()
+```
 
 By default the library only considers some of the most common code pages when detecting the right code page for each letter. If you want to add another code page candidate or remove on, because it is not supported by your printer, you can. You can customize the candidate code pages by setting an option during instantiation of the library:
 
+```js
     let encoder = new EscPosEncoder({
         codepageCandidates: [
             'cp437', 'cp858', 'cp860', 'cp861', 'cp863', 'cp865',
             'cp852', 'cp857', 'cp855', 'cp866', 'cp869',
         ]
     });
+```
 
 ### Text
 
 Print a string of text. If the text is longer than the line width of the printer, it will automatially wrap to the next line when it reaches the maximum width. That means it could wrap right in the middle of a word.
 
+```js
     let result = encoder
         .text('The quick brown fox jumps over the lazy dog')
         .encode()
+```
 
 An optional parameter turns on word wrapping. To enable this, specify the maximum length of the line.
 
+```js
     let result = encoder
         .text('The quick brown fox jumps over the lazy dog', 20)
         .encode()
+```
 
 ### Newline
 
 Move to the beginning of the next line.
 
+```js
     let result = encoder
         .newline()
         .encode()
+```
 
 ### Line
 
 Print a line of text. This is similar to the `text()` command, except it will automatically add a `newline()` command.
 
+```js
     let result = encoder
         .line('The is the first line')
         .line('And this is the second')
         .encode()
+```
 
 This would be equal to:
 
+```js
     let result = encoder
         .text('The is the first line')
         .newline()
         .text('And this is the second')
         .newline()
         .encode()
+```
 
 An optional parameter turns on word wrapping. To enable this, specify the maximum length of the line.
 
@@ -208,61 +226,73 @@ An optional parameter turns on word wrapping. To enable this, specify the maximu
 
 Change the text style to underline.
 
+```js
     let result = encoder
         .text('This is ')
         .underline()
         .text('underlined')
         .underline()
         .encode()
+```
 
 It will try to remember the current state of the text style. But you can also provide and additional parameter to force the text style to turn on and off.
 
+```js
     let result = encoder
         .text('This is ')
         .underline(true)
         .text('bold')
         .underline(false)
         .encode()
+```
 
 ### Bold
 
 Change the text style to bold.
 
+```js
     let result = encoder
         .text('This is ')
         .bold()
         .text('bold')
         .bold()
         .encode()
+```
 
 It will try to remember the current state of the text style. But you can also provide and additional parameter to force the text style to turn on and off.
 
+```js
     let result = encoder
         .text('This is ')
         .bold(true)
         .text('bold')
         .bold(false)
         .encode()
+```
 
 ### Italic
 
 Change the text style to italic.
 
+```js
     let result = encoder
         .text('This is ')
         .italic()
         .text('italic')
         .italic()
         .encode()
+```
 
 It will try to remember the current state of the text style. But you can also provide and additional parameter to force the text style to turn on and off.
 
+```js
     let result = encoder
         .text('This is ')
         .italic(true)
         .text('italic')
         .italic(false)
         .encode()
+```
 
 Note: this text style is not supported by most receipt printers.
 
@@ -270,26 +300,31 @@ Note: this text style is not supported by most receipt printers.
 
 Change the style to white text on a black background.
 
+```js
     let result = encoder
         .text('This is ')
         .invert()
         .text('white text on black')
         .invert()
         .encode()
+```
 
 It will try to remember the current state of the text style. But you can also provide and additional parameter to force the text style to turn on and off.
 
+```js
     let result = encoder
         .text('This is ')
         .invert(true)
         .text('white text on black')
         .invert(false)
         .encode()
+```
 
 ### Align
 
 Change the alignment of the text. You can specify the alignment using a parameter which can be either "left", "center" or "right".
 
+```js
     let result = encoder
         .align('right')
         .line('This line is aligned to the right')
@@ -298,22 +333,26 @@ Change the alignment of the text. You can specify the alignment using a paramete
         .align('left')
         .line('This line is aligned to the left')
         .encode()
+```
 
 ### Size
 
 Change the text size. You can specify the size using a parameter which can be either "small" or "normal".
 
+```js
     let result = encoder
         .size('small')
         .line('A line of small text')
         .size('normal')
         .line('A line of normal text')
         .encode()
+```
 
 ### Width
 
 Change the text width. You can specify the width using a parameter which can be a number from 1 to 8.
 
+```js
     let result = encoder
         .width(2)
         .line('A line of text twice as wide')
@@ -322,6 +361,7 @@ Change the text width. You can specify the width using a parameter which can be 
         .width(1)
         .line('A line of text with normal width')
         .encode()
+```
 
 Not all printers support all widths, it is probably best to not go over 4x at the most just to be safe.
 
@@ -329,6 +369,7 @@ Not all printers support all widths, it is probably best to not go over 4x at th
 
 Change the text height. You can specify the height using a parameter which can be a number from 1 to 8.
 
+```js
     let result = encoder
         .height(2)
         .line('A line of text twice as high')
@@ -337,11 +378,13 @@ Change the text height. You can specify the height using a parameter which can b
         .height(1)
         .line('A line of text with normal height')
         .encode()
+```
 
 Not all printers support all heights, it is probably best to not go over 4x at the most just to be safe.
 
 Also, you can combine this command with the width command to make the text bigger. For example:
 
+```js
     let result = encoder
         .width(2)
         .height(2)
@@ -349,11 +392,13 @@ Also, you can combine this command with the width command to make the text bigge
         .width(1)
         .height(1)
         .encode()
+```
 
 ### Table
 
 Insert a table with multiple columns. The contents of each cell can be a string, or a callback function.
 
+```js
     let result = encoder
         .table(
             [
@@ -371,6 +416,7 @@ Insert a table with multiple columns. The contents of each cell can be a string,
             ]
         )
         .encode()
+```
 
 The table function takes two parameters.
 
@@ -397,6 +443,8 @@ The value can either be a string or a callback function.
 
 If you want to style text inside of a cell, can use the callback function instead. The first parameter of the called function contains the encoder object which you can use to chain additional commands.
 
+```js
+
     [
         /* Row one, with two columns */
         [
@@ -404,6 +452,7 @@ If you want to style text inside of a cell, can use the callback function instea
             (encoder) => encoder.bold().text('Cell two').bold()
         ],
     ]
+```
 
 ### Box
 
@@ -423,12 +472,15 @@ The second parameter is the content of the box and it can be a string, or a call
 
 For example:
 
+```js
+
     let result = encoder
         .box(
             { width: 30, align: 'right', style: 'double', marginLeft: 10 },
             'The quick brown fox jumps over the lazy dog
         )
         .encode()
+```
 
 ### Rule
 
@@ -449,6 +501,20 @@ For example:
 
 Print a barcode of a certain symbology. The first parameter is the value of the barcode as a string, the second is the symbology and finally the height of the barcode.
 
+#### Text Position (HRI)
+
+This fork adds support for barcode text position (HRI).  
+You can now choose where the human-readable text (the numbers under the barcode) appears.
+
+Usage:
+
+```js
+encoder.barcode('123456789012', 'ean13', 60, 'below'); // default
+encoder.barcode('123456789012', 'ean13', 60, 'above');
+encoder.barcode('123456789012', 'ean13', 60, 'both');
+encoder.barcode('123456789012', 'ean13', 60, 'none');
+```
+
 The following symbologies can be used: 'upca', 'ean13', 'ean8', 'code39', 'itf', 'codabar', 'code93', 'code128', 'gs1-128', 'gs1-databar-omni', 'gs1-databar-truncated', 'gs1-databar-limited', 'gs1-databar-expanded', 'code128-auto'.
 
 _Just because the symbology is suppored by this library does not mean that the printer will actually support it. If the symbology is not supported, the barcode will simply not be printed, or the raw data will be printed instead, depending on the model and manufacturer of the printer._
@@ -457,15 +523,19 @@ In general the printer will automatically calculate the checksum if one is not p
 
 For example with the checksum provided in the data:
 
+```js
     let result = encoder
         .barcode('3130630574613', 'ean13', 60)
         .encode()
+```
 
 Or without a checksum:
 
+```js
     let result = encoder
         .barcode('313063057461', 'ean13', 60)
         .encode()
+```
 
 Both examples above should result in the same barcode being printed.
 
@@ -488,21 +558,28 @@ By default Code 128 uses CODE B. It is possible to use a different code set, by 
 
 For example with the default CODE B set:
 
+```js
+
     let result = encoder
         .barcode('CODE128 test', 'code128', 60)
         .encode()
+```
 
 Is equivalent to manually selecting CODE B:
 
+```js
     let result = encoder
         .barcode('{B' + 'CODE128 test', 'code128', 60)
         .encode()
+```
 
 And Code C only supports numbers, but you must encode it as a string:
 
-    let result = encoder
+```js
+     let result = encoder
         .barcode('{C' + '2Uc#', 'code128', 60)
         .encode()
+```
 
 If you look up the value of the characters in an ASCII table, you will see that 2 = 50, U = 85, c = 99 and # = 35.
 
@@ -514,9 +591,11 @@ All of the other symbologies require even more complicated encoding specified in
 
 Print a QR code. The first parameter is the data of the QR code.
 
+```js
     let result = encoder
         .qrcode('https://nielsleenheer.com')
         .encode()
+```
 
 The qrcode function accepts the following additional parameters:
 
@@ -526,9 +605,11 @@ The qrcode function accepts the following additional parameters:
 
 For example:
 
+```js
     let result = encoder
         .qrcode('https://nielsleenheer.com', 1, 8, 'h')
         .encode()
+```
 
 ### Image
 
@@ -544,6 +625,7 @@ The fourth parameter is the dithering algorithm that is used to turn colour and 
 
 The fifth paramter is the threshold that will be used by the threshold and bayer dithering algorithm. It is ignored by the other algorithms. It is set to a default of 128.
 
+```js
     let img = new Image();
     img.src = 'https://...';
 
@@ -552,6 +634,7 @@ The fifth paramter is the threshold that will be used by the threshold and bayer
             .image(img, 320, 320, 'atkinson')
             .encode()
     }
+```
 
 #### Column or raster image mode
 
@@ -559,9 +642,12 @@ Depending on how new your printer is you might want to use 'column' mode or 'ras
 
 To opt in to 'raster' mode you need to provide the constructor of the `EscPosEncoder` class with an options object with the property `imageMode` set to `raster`.
 
+```js
     let encoder = new EscPosEncoder({
         imageMode: 'raster'
     });
+```
+
 
 _Note: In EscPosEncoder 1.x the 'raster' image mode was the default mode. This changed in EscPosEncoder 2.0 as 'column' image mode will be more future compatible._
 
@@ -569,9 +655,11 @@ _Note: In EscPosEncoder 1.x the 'raster' image mode was the default mode. This c
 
 Cut the paper. Optionally a parameter can be specified which can be either be "partial" or "full". If not specified, a full cut will be used.
 
+```js
     let result = encoder
         .cut('partial')
         .encode()
+```
 
 _Note: Not all printer models support cutting paper. And even if they do, they might not support both types of cuts._
 
@@ -579,9 +667,11 @@ _Note: Not all printer models support cutting paper. And even if they do, they m
 
 Send a pulse to an external device, such as a beeper or cash drawer.
 
+```js
     let result = encoder
         .pulse()
         .encode()
+```
 
 The first parameter is the device where you want to send the pulse. This can be 0 or 1 depending how the device is connected. This parameter is optional an by default it will be send to device 0.
 
@@ -589,17 +679,21 @@ The second parameter is how long the pulse should be active in milliseconds, wit
 
 The third parameter is how long there should be a delay after the pulse has been send in milliseconds, with a default of 500 milliseconds.
 
+```js
     let result = encoder
         .pulse(0, 100, 500)
         .encode()
+```
 
 ### Raw
 
 Add raw printer commands, in case you want to send a command that this library does not support natively. For example the following command is to turn of Kanji character mode.
 
+```js
     let result = encoder
         .raw([ 0x1c, 0x2e ])
         .encode()
+```
 
 
 ## License

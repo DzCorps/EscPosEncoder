@@ -316,7 +316,7 @@ class EscPosEncoder {
   _wrap(value, position) {
     if (position || (this._options.wordWrap && this._options.width)) {
       const indent = '-'.repeat(this._cursor);
-      const w = linewrap(position || this._options.width, {lineBreak: '\n', whitespace: 'all'});
+      const w = linewrap(position || this._options.width, { lineBreak: '\n', whitespace: 'all' });
       const result = w(indent + value).substring(this._cursor).split('\n');
 
       return result;
@@ -489,7 +489,7 @@ class EscPosEncoder {
      */
   underline(value) {
     if (typeof value === 'undefined') {
-      value = ! this._state.underline;
+      value = !this._state.underline;
     }
 
     this._state.underline = value;
@@ -510,7 +510,7 @@ class EscPosEncoder {
      */
   italic(value) {
     if (typeof value === 'undefined') {
-      value = ! this._state.italic;
+      value = !this._state.italic;
     }
 
     this._state.italic = value;
@@ -531,7 +531,7 @@ class EscPosEncoder {
      */
   bold(value) {
     if (typeof value === 'undefined') {
-      value = ! this._state.bold;
+      value = !this._state.bold;
     }
 
     this._state.bold = value;
@@ -610,7 +610,7 @@ class EscPosEncoder {
      */
   invert(value) {
     if (typeof value === 'undefined') {
-      value = ! this._state.invert;
+      value = !this._state.invert;
     }
 
     this._state.invert = value;
@@ -696,7 +696,7 @@ class EscPosEncoder {
         const cell = [];
 
         if (typeof data[r][c] === 'string') {
-          const w = linewrap(columns[c].width, {lineBreak: '\n'});
+          const w = linewrap(columns[c].width, { lineBreak: '\n' });
           const fragments = w(data[r][c]).split('\n');
 
           for (let f = 0; f < fragments.length; f++) {
@@ -867,7 +867,7 @@ class EscPosEncoder {
     const cell = [];
 
     if (typeof contents === 'string') {
-      const w = linewrap(options.width - 2 - options.paddingLeft - options.paddingRight, {lineBreak: '\n'});
+      const w = linewrap(options.width - 2 - options.paddingLeft - options.paddingRight, { lineBreak: '\n' });
       const fragments = w(contents).split('\n');
 
       for (let f = 0; f < fragments.length; f++) {
@@ -958,10 +958,11 @@ class EscPosEncoder {
      * @param  {string}           value  the value of the barcode
      * @param  {string}           symbology  the type of the barcode
      * @param  {number}           height  height of the barcode
+     * @param  {string}           position  HRI position: 'none', 'above', 'below', or 'both'
      * @return {object}                  Return the object, for easy chaining commands
      *
      */
-  barcode(value, symbology, height) {
+  barcode(value, symbology, height, position) {
     if (this._embedded) {
       throw new Error('Barcodes are not supported in table cells or boxes');
     }
@@ -986,12 +987,21 @@ class EscPosEncoder {
     };
 
     if (symbology in symbologies) {
+      const positions = {
+        'none': 0x00,
+        'above': 0x01,
+        'below': 0x02,
+        'both': 0x03,
+      };
       const bytes = CodepageEncoder.encode(value, 'ascii');
 
       if (this._cursor != 0) {
         this.newline();
       }
 
+      this._queue([
+        0x1d, 0x48, positions[position] ?? positions['none'],
+      ]);
       this._queue([
         0x1d, 0x68, height,
         0x1d, 0x77, symbology === 'code39' ? 0x02 : 0x03,
