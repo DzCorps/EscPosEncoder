@@ -5,7 +5,7 @@ Refer to the [migration guide](https://github.com/NielsLeenheer/ReceiptPrinterEn
 
 ---
 
-This is a fork of [EscPosEncoder](https://github.com/Ans0n-Ti0/EscPosEncoder) by Anson Tio that is intended to work with Ionic. I have only updated his fork to match the latest [EscPosEncoder](https://github.com/NielsLeenheer/EscPosEncoder) by NielsLeenheer.
+This is a fork of [EscPosEncoder](https://github.com/Ans0n-Ti0/EscPosEncoder) by Anson Tio that is intended to work with Ionic. This fork has been updated to support the latest Ionic versions and includes enhancements to several commands, including improved barcode handling.
 
 Create a set of commands that can be send to any receipt printer that supports ESC/POS.
 
