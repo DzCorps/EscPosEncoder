@@ -15,11 +15,12 @@ Before you use this library, you should also consider [ThermalPrinterEncoder](ht
 
 First, install the package using npm:
 
-    npm install @mineminemine/esc-pos-encoder-ionic --save
+    npm install @centimoo/esc-pos-encoder-ionic --save
 
 If you prefer ES6 modules, then import `EscPosEncoder` from `esc-pos-encoder` and use it like so:
 
-    import EscPosEncoder from '@mineminemine/esc-pos-encoder-ionic';
+```js
+    import EscPosEncoder from '@centimoo/esc-pos-encoder-ionic';
 
     let encoder = new EscPosEncoder();
 
@@ -29,12 +30,15 @@ If you prefer ES6 modules, then import `EscPosEncoder` from `esc-pos-encoder` an
         .newline()
         .qrcode('https://nielsleenheer.com')
         .encode();
+```
 
 Alternatively you could use the CommonJS way of doing things and require the package:
 
-    let EscPosEncoder = require('@mineminemine/esc-pos-encoder-ionic');
+```js
+    let EscPosEncoder = require('@centimoo/esc-pos-encoder-ionic');
 
     let encoder = new EscPosEncoder();
+```
 
 ## Options
 
@@ -44,9 +48,11 @@ When you create the `EscPosEncoder` object you can specify a number of options t
 
 To set the width of the paper you can use the `width` property. This is option, as text automatically wraps to a new line if the edge of the paper is reached, but if you want to use word wrap, you need to specify this.
 
+```js
     let encoder = new EscPosEncoder({
         width:    42
     });
+```
 
 If you use 57mm wide paper, it allows you to print up to 32 or 35 characters horizontally, depending on the resolution of the printer.
 
@@ -56,10 +62,12 @@ If you use 80mm wide paper, it allows you to print up to 42 or 48 characters hor
 
 If you want text to automatically word wrap at the edge of the paper you can turn on `wordWrap`. If you use this option you also must specify a paper width using the `width` property.
 
+```js
     let encoder = new EscPosEncoder({
         width:      48,
         wordWrap:   true
     });
+```
 
 ## Commands
 
@@ -73,9 +81,11 @@ The following commands are available:
 
 Properly initialize the printer, which means text mode is enabled and settings like code page are set to default.
 
+```js
     let result = encoder
         .initialize()
         .encode()
+```
 
 ### Codepage
 
@@ -85,12 +95,14 @@ If you specify the code page, it will send a command to the printer to enable th
 
 If you don't specify a code page, it will assume you want to print only ASCII characters and strip out any others.
 
+```js
     let result = encoder
         .codepage('windows1251')
         .text('Iñtërnâtiônàlizætiøn')
         .codepage('cp737')
         .text('ξεσκεπάζω την ψυχοφθόρα βδελυγμία')
         .encode()
+```
 
 The following code pages are supported: cp437, cp720, cp737, cp775, cp850, cp851, cp852, cp853, cp855, cp857, cp858, cp860, cp861, cp862, cp863, cp864, cp865, cp866, cp869, cp874, cp922, cp1098, cp1118, cp1119, cp1125, cp2001, cp3001, cp3002, cp3011, cp3012, cp3021, cp3041, cp3840, cp3841, cp3843, cp3844, cp3845, cp3846, cp3847, cp3848, iso885915, iso88592, iso88597, rk1048, windows1250, windows1251, windows1252, windows1253, windows1254, windows1255, windows1256, windows1257, windows1258.
 
@@ -111,9 +123,11 @@ the printer supports the code page, the way to activate it is different for that
 
 You can activate these alternative mappings with a parameter when the library is instantiated:
 
+```js
     let encoder = new EscPosEncoder({
         codepageMapping: 'bixolon'
     });
+```
 
 If you want to use a code page mapping that is specific to your printer, you can also specify an object with the correct mappings:
 
