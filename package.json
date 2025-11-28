@@ -1,6 +1,6 @@
 {
-  "name": "@mineminemine/esc-pos-encoder-ionic",
-  "version": "3.0.0",
+  "name": "@DzCorps/esc-pos-encoder-ionic",
+  "version": "1.0.0",
   "description": "Create a set of commands that can be send to any receipt printer that supports ESC/POS",
   "type": "module",
   "exports": {
@@ -22,7 +22,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mineminemine/EscPosEncoder.git"
+    "url": "git+https://github.com/DzCorps/EscPosEncoder.git"
   },
   "keywords": [
     "pos",
@@ -33,14 +33,15 @@
     "ionic4",
     "ionic5",
     "ionic6",
-    "ionic7"
+    "ionic7",
+    "ionic8"
   ],
-  "author": "Ryan Huxley",
+  "author": "Wail Djenane",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mineminemine/EscPosEncoder/issues"
+    "url": "https://github.com/DzCorps/EscPosEncoder/issues"
   },
-  "homepage": "https://github.com/mineminemine/EscPosEncoder#readme",
+  "homepage": "https://github.com/DzCorps/EscPosEncoder#readme",
   "devDependencies": {
     "@rollup/plugin-commonjs": "^24.1.0",
     "@rollup/plugin-node-resolve": "^15.0.2",
